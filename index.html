@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onclick PC Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <link rel="stylesheet" href="form.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding: 100px 20px;
+            position: relative;
+            flex-wrap: nowrap;
+        }
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+        }
+        .hero img {
+            max-width: 320px;
+            margin-left: 100px;
+            order: 1;
+        }
+        .btn-custom {
+            background: white;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: 0.3s;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn-custom:hover {
+            background: #0056b3;
+            color: white;
+        }
+        .navbar-brand img {
+            height: 30px;
+            position: absolute;
+            top: 15px;
+            left: 10px;
+        }
+        .navbar-nav {
+            width: 100%;
+            justify-content: center;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-item {
+            text-align: center;
+            padding: 5px 10px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .dropdown-item:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        
+        /* No animation applied here for dropdown items */
+        
+        @keyframes flyIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+/* Background Overlay Layer */
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 998; /* Behind the form container */
+    display: none; /* Initially hidden */
+}
+
+.form-container {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    max-width: 600px;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 9999; /* Above the overlay */
+    display: none;
+    height: 100vh; /* Fill the entire height of the screen */
+    animation: flyIn 0.5s ease-out forwards;
+}
+
+.login-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* Default for Desktop */
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) { /* Mobile View */
+        .login-btn {
+            position: relative;
+            right: auto;
+            top: auto;
+            margin-top: 10px; /* Adds spacing below the dropdown */
+            display: block;
+        }
+    }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            margin-top: auto;
+            font-size: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Mobile and Tablet Responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 50px 20px;
+            }
+            .hero img {
+                order: -1;
+                max-width: 200px;
+                margin-left: 0;
+                margin-bottom: 20px;
+            }
+            .form-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 764px) {
+            .hero img {
+                max-width: 160px;
+            }
+
+            .hero h1 {
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="./logo.png" alt="Onclick PC Solutions Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Windows</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Windows Installation', 300)">Installation</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Microsoft Office</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Microsoft Office Installation', 150)">Installation</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Antivirus</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Antivirus Installation', 100)">Installation</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Adobe Reader</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Adobe Reader Installation', 60)">Installation</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Deleted Files Recovery</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Deleted Files Recovery', 300)">Recovery</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Password Recovery</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Password Recovery', 500)">Recovery</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Printer Setup</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="showForm('Printer Setup Installation', 240)">Installation</a>
+                        </div>
+                    </li>
+                </ul>
+            <!-- Login with Google Button -->
+            <button class="btn btn-light d-flex align-items-center gap-2 login-btn" id="signInButton">
+                <img src="./google-icon.png" alt="Google Icon" width="24" height="24" id="googleIcon" class="rounded-circle">
+                <div class="google-login" id="googleLoginText">Login with Google</div>
+            </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="animate__animated animate__fadeInDown">All Solutions for Your<br> Computer Problems!</h1>
+            <button class="btn btn-custom animate__animated animate__fadeInUp" id="toggleFormBtn">Hardware Repair</button>
+                </div>
+        <img src="./computer-image.png" alt="Computer Image">
+    </div>
+
+    <!-- Form Background Layer -->
+<div id="formOverlay" class="form-overlay" onclick="hideForm()"></div>
+
+    <!-- Form Container (Fixed at the top of the page) -->
+    <div id="formContainer" class="form-container">
+        <button class="back-btn" onclick="hideForm()">Back</button>
+        <h2 id="formTitle"></h2>
+        <form id="serviceForm" action="https://formsubmit.co/0c200c9899e99321486f732df9c6210e" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <div class="mb-3">
+                <label for="standNumber" class="form-label">Stand number</label>
+                <input type="text" class="form-control" id="standNumber" name="standNumber" required>
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="fullInstall" onclick="updatePrice()">
+                <label class="form-check-label" for="fullInstall">Do you want full installation?</label>
+                <small class="form-text text-muted">
+                    <br> By choosing this option, we will install Windows, <br> Antivirus, Adobe Reader, and Microsoft Office.
+                </small>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Request</button>
+            </div>
+            <div class="mb-3">
+                <h5 id="servicePrice"></h5>
+            </div>
+        
+            <!-- Hidden inputs to store the form title and price -->
+            <input type="hidden" id="formTitleHidden" name="formTitle">
+            <input type="hidden" id="formPriceHidden" name="servicePrice">
+        </form>
+    </div>
+
+   <!-- Unique Form Container (Initially Hidden) -->
+<div id="computer-repair-form-container" style="display: none;">
+    <form id="computerRepairFormUnique" action="https://formsubmit.co/0c200c9899e99321486f732df9c6210e" method="POST" enctype="multipart/form-data">
+        
+        <!-- Unique Header Image -->
+        <div class="computer-repair-form-header">
+            <img src="./header-image.png" alt="Computer Repair Header" class="form-header-image">
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="uniqueNumComputers">Enter number of computer(s):</label>
+                <input type="number" id="uniqueNumComputers" name="numComputers" required>
+            </div>
+
+            <div class="form-field checkbox-field">
+                <label for="uniqueComputerName">Enter your Computer name:</label>
+                <div class="checkbox-wrapper">
+                    <input type="text" id="uniqueComputerName" name="computerName">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="uniqueNotSureName" onclick="toggleComputerInput('uniqueComputerName')">
+                        <span>Not sure</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-field checkbox-field">
+                <label for="uniqueComputerModel">Enter your Computer model:</label>
+                <div class="checkbox-wrapper">
+                    <input type="text" id="uniqueComputerModel" name="computerModel">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="uniqueNotSureModel" onclick="toggleComputerInput('uniqueComputerModel')">
+                        <span>Not sure</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="uniqueComputerUpload">Upload your computer image:</label>
+                <input type="file" id="uniqueComputerUpload" name="computerUpload" accept="image/*" required>
+            </div>
+
+            <div class="form-field full-width">
+                <label for="uniqueComputerIssue">Describe your Computer's issue:</label>
+                <textarea id="uniqueComputerIssue" name="computerIssue" required></textarea>
+            </div>
+
+            <div class="form-field">
+                <label for="uniqueCompanyName">Company Name:</label>
+                <input type="text" id="uniqueCompanyName" name="companyName">
+            </div>
+
+            <div class="form-field">
+                <label for="uniqueFullName">Full Name:</label>
+                <input type="text" id="uniqueFullName" name="fullName" required>
+            </div>
+
+            <div class="form-field">
+                <label for="uniqueEmail">Email address:</label>
+                <input type="email" id="uniqueEmail" name="email" required>
+            </div>
+
+            <div class="form-field">
+                <label for="uniquePhone">Phone Number:</label>
+                <input type="tel" id="uniquePhone" name="phone" required>
+            </div>
+
+            <div class="form-field">
+                <label for="uniqueAddress">Address with Zip Code:</label>
+                <input type="text" id="uniqueAddress" name="address" required>
+            </div>
+
+            <div class="form-field">
+                <label for="uniquePaymentType">Payment Type:</label>
+                <select id="uniquePaymentType" name="paymentType">
+                    <option value="cash">Cash</option>
+                    <option value="bank">Bank</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Request</button>
+    </form>
+</div>
+
+<script>
+    let isFormVisible = false; // Track form visibility
+    let ignoreScrollEvent = false; // Prevent scroll event from immediately hiding the form
+    
+    document.getElementById("toggleFormBtn").addEventListener("click", function () {
+        var formContainer = document.getElementById("computer-repair-form-container");
+    
+        if (!isFormVisible) {
+            // Set visibility instead of display to ensure smooth scrolling works the first time
+            formContainer.style.visibility = "hidden";
+            formContainer.style.display = "block";
+    
+            // Scroll first, then make it visible
+            formContainer.scrollIntoView({ behavior: "smooth" });
+    
+            setTimeout(() => {
+                formContainer.style.visibility = "visible"; // Make it fully visible after scrolling
+            }, 500); // Delay slightly for smooth effect
+    
+            isFormVisible = true;
+            ignoreScrollEvent = true; // Prevent accidental hiding immediately
+    
+            setTimeout(() => {
+                ignoreScrollEvent = false; // Allow scroll detection after animation
+            }, 1000);
+        } else {
+            formContainer.style.display = "none";
+            isFormVisible = false;
+        }
+    });
+    
+    // Auto-hide form when scrolling back above the button
+    window.addEventListener("scroll", function () {
+        if (ignoreScrollEvent) return; // Prevent accidental hiding during smooth scrolling
+    
+        var formContainer = document.getElementById("computer-repair-form-container");
+        var button = document.getElementById("toggleFormBtn");
+        var buttonPosition = button.getBoundingClientRect().top; // Button position relative to viewport
+    
+        if (isFormVisible && buttonPosition > 0) { 
+            formContainer.style.display = "none"; // Hide form if button is back in view
+            isFormVisible = false;
+        }
+    });
+    </script>
+    
+    
+    <script>
+    // Service prices and selection
+const prices = {
+    'Windows Installation': 300,
+    'Microsoft Office Installation': 150,
+    'Antivirus Installation': 100,
+    'Adobe Reader Installation': 60,
+    'Deleted Files Recovery': 300,
+    'Password Recovery': 500,
+    'Printer Setup Installation': 240
+};
+
+// Show form and overlay
+function showForm(serviceTitle, price) {
+    const formContainer = document.getElementById('formContainer');
+    const formOverlay = document.getElementById('formOverlay');
+    const formTitle = document.getElementById('formTitle');
+    const servicePrice = document.getElementById('servicePrice');
+    const formTitleHidden = document.getElementById('formTitleHidden');  // Hidden input
+    const formPriceHidden = document.getElementById('formPriceHidden');  // Hidden input
+    
+    formTitle.textContent = serviceTitle;
+    servicePrice.textContent = `Price: R${price}.00`;
+
+    // Set hidden input values
+    formTitleHidden.value = serviceTitle;
+    formPriceHidden.value = `R${price}.00`;
+
+    formContainer.setAttribute('data-price', price); // Store base price
+
+    formContainer.style.left = '0'; // Show form by sliding in from the left
+    formContainer.style.display = 'block';
+    formOverlay.style.display = 'block'; // Show the overlay
+}
+
+// Hide form and overlay
+function hideForm() {
+    const formContainer = document.getElementById('formContainer');
+    const formOverlay = document.getElementById('formOverlay');
+    formContainer.style.left = '-100%'; // Hide form by sliding out
+    formContainer.style.display = 'none';
+    formOverlay.style.display = 'none'; // Hide the overlay
+}
+
+// Update price when full installation checkbox is checked
+function updatePrice() {
+    const fullInstallChecked = document.getElementById('fullInstall').checked;
+    const formContainer = document.getElementById('formContainer');
+    const servicePrice = document.getElementById('servicePrice');
+    const basePrice = parseInt(formContainer.getAttribute('data-price'));
+    const formPriceHidden = document.getElementById('formPriceHidden'); 
+
+    if (fullInstallChecked) {
+        servicePrice.textContent = "Price: R420.00"; 
+        formPriceHidden.value = "R420.00";
+    } else {
+        servicePrice.textContent = `Price: R${basePrice}.00`;
+        formPriceHidden.value = `R${basePrice}.00`;
+    }
+}
+
+// Form validation and submission
+document.getElementById('serviceForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const location = document.getElementById('location').value;
+    const standNumber = document.getElementById('standNumber').value;
+
+    // Basic validation
+    if (!email || !phone || !location || !standNumber) {
+        alert("Please fill out all fields.");
+        e.preventDefault();  // Prevent submission only if validation fails
+        return;
+    }
+
+    // Allow form to submit normally
+});
+
+    </script>
+
+
+<script>
+    document.getElementById('submitComputerRepair').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent default form submission
+    
+        var fileInput = document.getElementById('uniqueComputerUpload'); // Get the uploaded file
+        if (fileInput.files.length === 0) {
+            alert('Please upload an image of your computer.');
+            return;
+        }
+    
+        var formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+    
+        var apiKey = 'e6ca4afe06b2ef4374626035b46bd315'; // Replace with your ImgBB API Key
+    
+        // Upload the image to ImgBB
+        fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var imageUrl = data.data.url; // Get the uploaded image URL
+    
+                // Create a hidden input field with the image URL
+                var form = document.getElementById('computerRepairFormUnique');
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'computerImageUrl'; // Name to be sent in the form
+                hiddenInput.value = imageUrl;
+                form.appendChild(hiddenInput);
+    
+                // Now submit the form
+                form.submit();
+            } else {
+                console.error('Image upload failed:', data);
+                alert('Image upload failed. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            alert('Error uploading image.');
+        });
+    });
+    </script>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+    
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCDybBaRFD4Xz65mSvLi7XQBxJhzzj5JhI",
+            authDomain: "onclick-646a7.firebaseapp.com",
+            projectId: "onclick-646a7",
+            storageBucket: "onclick-646a7.firebasestorage.app",
+            messagingSenderId: "388072699093",
+            appId: "1:388072699093:web:8535349c035b1c05279e5c"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+    
+        // UI Elements
+        const signInButton = document.getElementById("signInButton");
+        const googleIcon = document.getElementById("googleIcon");
+        const googleLoginText = document.getElementById("googleLoginText");
+    
+        // Function to handle authentication
+        const handleAuth = async () => {
+            if (auth.currentUser) {
+                await signOut(auth);
+                alert("You have signed out successfully!");
+            } else {
+                signInWithPopup(auth, provider)
+                    .then((result) => console.log("User signed in:", result.user))
+                    .catch((error) => console.error("Login Error:", error.message));
+            }
+        };
+    
+        // Listen for authentication state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                googleIcon.src = user.photoURL && user.photoURL.trim() !== "" ? user.photoURL : "./defaulticon.png";
+                googleLoginText.innerText = "Logout";
+            } else {
+                googleIcon.src = "./google-icon.png";
+                googleLoginText.innerText = "Login with Google";
+            }
+        });
+    
+        // Attach event listener
+        signInButton.addEventListener("click", handleAuth);
+    
+        // Function to check if user is logged in via Firebase
+        function isUserLoggedIn() {
+            return auth.currentUser !== null;
+        }
+    
+        function handleClick(event, service, price) {
+            if (!isUserLoggedIn()) {
+                alert("You must log in to access this service.");
+                event.preventDefault(); // Prevents form from opening
+                return false; // Stops further execution
+            }
+            showForm(service, price);
+        }
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnCustom = document.getElementById("toggleFormBtn");
+            if (btnCustom) {
+                btnCustom.addEventListener("click", function (event) {
+                    if (!isUserLoggedIn()) {
+                        alert("You must log in to access this service.");
+                        event.preventDefault();
+                    }
+                });
+            }
+    
+            // Modify all dropdown items to check login status before calling showForm
+            const dropdownItems = document.querySelectorAll(".dropdown-item");
+            dropdownItems.forEach(function (item) {
+                const originalOnClick = item.getAttribute("onclick");
+                item.removeAttribute("onclick"); // Remove inline onclick to prevent direct execution
+    
+                item.addEventListener("click", function (event) {
+                    if (!isUserLoggedIn()) {
+                        alert("You must log in to access this service.");
+                        event.preventDefault();
+                    } else {
+                        eval(originalOnClick); // Execute the original showForm() call
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
