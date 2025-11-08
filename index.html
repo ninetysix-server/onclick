@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onclick PC Solutions</title>
+    <title>96 Studios | Onclick PC Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
@@ -237,8 +237,6 @@
             border-radius: 10px;
         }
         
-        /* No animation applied here for dropdown items */
-        
         @keyframes flyIn {
             from {
                 opacity: 0;
@@ -257,9 +255,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-            z-index: 998; /* Behind the form container */
-            display: none; /* Initially hidden */
+            background: rgba(0, 0, 0, 0.5); 
+            z-index: 998; 
+            display: none; 
         }
 
         .form-container {
@@ -273,16 +271,16 @@
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 9999; /* Above the overlay */
+            z-index: 9999; 
             display: none;
-            height: 100vh; /* Fill the entire height of the screen */
+            height: 100vh; 
             animation: flyIn 0.5s ease-out forwards;
         }
 
         .login-btn {
             position: absolute;
             top: 10px;
-            right: 10px; /* Default for Desktop */
+            right: 10px; 
             white-space: nowrap;
         }
 
@@ -301,7 +299,7 @@
                 position: relative;
                 right: auto;
                 top: auto;
-                margin-top: 10px; /* Adds spacing below the dropdown */
+                margin-top: 10px; 
                 display: block;
             }
             .form-grid {
@@ -449,7 +447,7 @@
             <button type="button" class="btn-close btn-close-white" onclick="toggleCart()"></button>
         </div>
         <div class="cart-items" id="cartItems">
-            <!-- Cart items will be dynamically added here -->
+            <!-- Cart items here -->
         </div>
         <div class="cart-total">
             <span>Total:</span>
@@ -597,400 +595,412 @@
     </div>
 
     <script>
-        // Cart functionality
-        let cart = [];
-        let currentService = null;
+    // Cart functionality
+    let cart = [];
+    let currentService = null;
+    
+    // Toggle cart visibility
+    function toggleCart() {
+        const cartContainer = document.getElementById('cartContainer');
+        cartContainer.style.display = cartContainer.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    // Add service to cart
+    function addToCart(serviceName, price) {
+        // Check if service is already in cart
+        const existingItem = cart.find(item => item.name === serviceName);
         
-        // Toggle cart visibility
-        function toggleCart() {
-            const cartContainer = document.getElementById('cartContainer');
-            cartContainer.style.display = cartContainer.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        // Add service to cart
-        function addToCart(serviceName, price) {
-            // Check if service is already in cart
-            const existingItem = cart.find(item => item.name === serviceName);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    name: serviceName,
-                    price: price,
-                    quantity: 1
-                });
-            }
-            
-            updateCartUI();
-            toggleCart(); // Show cart when item is added
-        }
-        
-        // Add service from form to cart
-        function addServiceToCart() {
-            if (!currentService) return;
-            
-            const fullInstall = document.getElementById('fullInstall').checked;
-            let serviceName = currentService.name;
-            let price = currentService.price;
-            
-            if (fullInstall && serviceName === 'Windows Installation') {
-                serviceName = 'Full Installation Package';
-                price = 420;
-            }
-            
-            // Get customer details from the form
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const location = document.getElementById('location').value;
-            const standNumber = document.getElementById('standNumber').value;
-            
-            if (!email || !phone || !location || !standNumber) {
-                alert("Please fill out all fields.");
-                return;
-            }
-            
-            // Add customer details to the service
-            const serviceWithDetails = {
-                ...cart.find(item => item.name === serviceName) || { name: serviceName, price: price, quantity: 0 },
-                customerDetails: { email, phone, location, standNumber }
-            };
-            
-            // Update or add to cart
-            const existingIndex = cart.findIndex(item => item.name === serviceName);
-            if (existingIndex !== -1) {
-                cart[existingIndex] = serviceWithDetails;
-                cart[existingIndex].quantity += 1;
-            } else {
-                serviceWithDetails.quantity = 1;
-                cart.push(serviceWithDetails);
-            }
-            
-            updateCartUI();
-            hideForm();
-            toggleCart();
-        }
-        
-        // Add hardware repair to cart
-        function addHardwareRepairToCart() {
-            const numComputers = document.getElementById('uniqueNumComputers').value;
-            const computerName = document.getElementById('uniqueComputerName').value;
-            const computerModel = document.getElementById('uniqueComputerModel').value;
-            const computerIssue = document.getElementById('uniqueComputerIssue').value;
-            const companyName = document.getElementById('uniqueCompanyName').value;
-            const fullName = document.getElementById('uniqueFullName').value;
-            const email = document.getElementById('uniqueEmail').value;
-            const phone = document.getElementById('uniquePhone').value;
-            const address = document.getElementById('uniqueAddress').value;
-            const paymentType = document.getElementById('uniquePaymentType').value;
-            const computerUpload = document.getElementById('uniqueComputerUpload').files[0];
-            
-            if (!numComputers || !computerIssue || !fullName || !email || !phone || !address) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            const serviceName = `Hardware Repair - ${numComputers} computer(s)`;
-            const price = 500; // Base price for hardware repair
-            
-            // Create service with all details
-            const hardwareRepairService = {
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
                 name: serviceName,
                 price: price,
-                quantity: 1,
-                type: 'hardware-repair',
-                details: {
-                    numComputers,
-                    computerName,
-                    computerModel,
-                    computerIssue,
-                    companyName,
-                    fullName,
-                    email,
-                    phone,
-                    address,
-                    paymentType,
-                    hasImage: !!computerUpload
-                }
-            };
-            
-            // If there's an image, handle it (in a real scenario you'd upload it)
-            if (computerUpload) {
-                hardwareRepairService.details.imageName = computerUpload.name;
-            }
-            
-            addToCart(serviceName, price);
-            cart[cart.length - 1] = hardwareRepairService;
-            
-            // Reset form
-            document.getElementById('computerRepairFormUnique').reset();
-            document.getElementById('computer-repair-form-container').style.display = 'none';
-            isFormVisible = false;
-            
-            updateCartUI();
-        }
-        
-        // Remove item from cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-        
-        // Update cart quantity
-        function updateQuantity(index, change) {
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            updateCartUI();
-        }
-        
-        // Update cart UI
-        function updateCartUI() {
-            const cartItems = document.getElementById('cartItems');
-            const cartBadge = document.getElementById('cartBadge');
-            const cartTotal = document.getElementById('cartTotal');
-            
-            // Update cart items
-            cartItems.innerHTML = '';
-            
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<p class="text-center">Your cart is empty</p>';
-            } else {
-                cart.forEach((item, index) => {
-                    const itemTotal = item.price * item.quantity;
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'cart-item';
-                    itemElement.innerHTML = `
-                        <div>
-                            <div><strong>${item.name}</strong></div>
-                            <div>R${item.price} x ${item.quantity}</div>
-                        </div>
-                        <div>
-                            <div><strong>R${itemTotal}</strong></div>
-                            <div class="d-flex align-items-center mt-1">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, -1)">-</button>
-                                <span class="mx-2">${item.quantity}</span>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 1)">+</button>
-                                <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeFromCart(${index})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    cartItems.appendChild(itemElement);
-                });
-            }
-            
-            // Update cart badge
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartBadge.textContent = totalItems;
-            
-            // Update cart total
-            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            cartTotal.textContent = `R${totalPrice}.00`;
-        }
-        
-        // Send cart to WhatsApp
-        function sendToWhatsApp() {
-            if (cart.length === 0) {
-                alert('Your cart is empty');
-                return;
-            }
-            
-            // Replace with your actual WhatsApp number (format: country code + number without any special characters)
-            const whatsappNumber = "27612345678"; // Example: South Africa number
-            
-            // Build message
-            let message = "Hello! I would like to request the following services:\n\n";
-            
-            cart.forEach(item => {
-                message += `• ${item.name} (x${item.quantity}) - R${item.price * item.quantity}\n`;
-                
-                // Add customer details for regular services
-                if (item.customerDetails) {
-                    message += `  📧 Email: ${item.customerDetails.email}\n`;
-                    message += `  📞 Phone: ${item.customerDetails.phone}\n`;
-                    message += `  📍 Location: ${item.customerDetails.location}\n`;
-                    message += `  🏠 Stand: ${item.customerDetails.standNumber}\n`;
-                }
-                
-                // Add detailed information for hardware repairs
-                if (item.type === 'hardware-repair') {
-                    message += `  💻 Computers: ${item.details.numComputers}\n`;
-                    message += `  🔧 Issue: ${item.details.computerIssue}\n`;
-                    message += `  👤 Name: ${item.details.fullName}\n`;
-                    message += `  📧 Email: ${item.details.email}\n`;
-                    message += `  📞 Phone: ${item.details.phone}\n`;
-                    message += `  📍 Address: ${item.details.address}\n`;
-                    if (item.details.companyName) {
-                        message += `  🏢 Company: ${item.details.companyName}\n`;
-                    }
-                    message += `  💰 Payment: ${item.details.paymentType}\n`;
-                    if (item.details.hasImage) {
-                        message += `  📸 Image: Provided\n`;
-                    }
-                }
-                message += '\n';
+                quantity: 1
             });
-            
-            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            message += `\n💰 Total: R${totalPrice}.00`;
-            
-            // Encode message for URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Create WhatsApp URL
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-            
-            // Open WhatsApp in new tab
-            window.open(whatsappURL, '_blank');
-            
-            // Clear cart after sending
-            cart = [];
-            updateCartUI();
-            toggleCart();
         }
         
-        // Cart icon click event
-        document.getElementById('cartIcon').addEventListener('click', toggleCart);
+        updateCartUI();
+        toggleCart(); 
+    }
+    
+    // Add service from form to cart
+    function addServiceToCart() {
+        if (!currentService) return;
         
-        // Service prices and selection
-        const prices = {
-            'Windows Installation': 200,
-            'Microsoft Office Installation': 150,
-            'Antivirus Installation': 70,
-            'Adobe Reader Installation': 60,
-            'Deleted Files Recovery (up to 600 files)': 300,
-            'Password Recovery': 300,
-            'Printer Setup Installation': 150
+        const fullInstall = document.getElementById('fullInstall').checked;
+        let serviceName = currentService.name;
+        let price = currentService.price;
+        
+        if (fullInstall && serviceName === 'Windows Installation') {
+            serviceName = 'Full Installation Package';
+            price = 420;
+        }
+        
+        // Get customer details from the form
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const location = document.getElementById('location').value;
+        const standNumber = document.getElementById('standNumber').value;
+        
+        if (!email || !phone || !location || !standNumber) {
+            alert("Please fill out all fields.");
+            return;
+        }
+        
+        // Add customer details to the service
+        const serviceWithDetails = {
+            ...cart.find(item => item.name === serviceName) || { name: serviceName, price: price, quantity: 0 },
+            customerDetails: { email, phone, location, standNumber }
+        };
+        
+        // Update or add to cart
+        const existingIndex = cart.findIndex(item => item.name === serviceName);
+        if (existingIndex !== -1) {
+            cart[existingIndex] = serviceWithDetails;
+            cart[existingIndex].quantity += 1;
+        } else {
+            serviceWithDetails.quantity = 1;
+            cart.push(serviceWithDetails);
+        }
+        
+        updateCartUI();
+        hideForm();
+        toggleCart();
+    }
+    
+    // Hardware repair to cart
+    function addHardwareRepairToCart() {
+        const numComputers = document.getElementById('uniqueNumComputers').value;
+        const computerName = document.getElementById('uniqueComputerName').value;
+        const computerModel = document.getElementById('uniqueComputerModel').value;
+        const computerIssue = document.getElementById('uniqueComputerIssue').value;
+        const companyName = document.getElementById('uniqueCompanyName').value;
+        const fullName = document.getElementById('uniqueFullName').value;
+        const email = document.getElementById('uniqueEmail').value;
+        const phone = document.getElementById('uniquePhone').value;
+        const address = document.getElementById('uniqueAddress').value;
+        const paymentType = document.getElementById('uniquePaymentType').value;
+        const computerUpload = document.getElementById('uniqueComputerUpload').files[0];
+        
+        if (!numComputers || !computerIssue || !fullName || !email || !phone || !address) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        const serviceName = `Hardware Repair - ${numComputers} computer(s)`;
+        const price = 500; 
+        
+        // Create service with all details
+        const hardwareRepairService = {
+            name: serviceName,
+            price: price,
+            quantity: 1,
+            type: 'hardware-repair',
+            details: {
+                numComputers,
+                computerName,
+                computerModel,
+                computerIssue,
+                companyName,
+                fullName,
+                email,
+                phone,
+                address,
+                paymentType,
+                hasImage: !!computerUpload
+            }
+        };
+        
+        if (computerUpload) {
+            hardwareRepairService.details.imageName = computerUpload.name;
+        }
+        
+        addToCart(serviceName, price);
+        cart[cart.length - 1] = hardwareRepairService;
+        
+        // Reset form
+        document.getElementById('computerRepairFormUnique').reset();
+        document.getElementById('computer-repair-form-container').style.display = 'none';
+        isFormVisible = false;
+        
+        updateCartUI();
+    }
+    
+    // Remove item from cart
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+    
+    // Update cart quantity
+    function updateQuantity(index, change) {
+        cart[index].quantity += change;
+        
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+        
+        updateCartUI();
+    }
+    
+    // Update cart UI
+    function updateCartUI() {
+        const cartItems = document.getElementById('cartItems');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartTotal = document.getElementById('cartTotal');
+        
+        // Update cart items
+        cartItems.innerHTML = '';
+        
+        if (cart.length === 0) {
+            cartItems.innerHTML = '<p class="text-center">Your cart is empty</p>';
+        } else {
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                
+                let priceDisplay = `R${item.price}`;
+                if (item.type === 'hardware-repair') {
+                    priceDisplay = `R${item.price}+`;
+                }
+                
+                itemElement.innerHTML = `
+                    <div>
+                        <div><strong>${item.name}</strong></div>
+                        <div>${priceDisplay} x ${item.quantity}</div>
+                    </div>
+                    <div>
+                        <div><strong>R${itemTotal}</strong></div>
+                        <div class="d-flex align-items-center mt-1">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeFromCart(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+        }
+        
+        // Update cart badge
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        cartBadge.textContent = totalItems;
+        
+        // Update cart total
+        const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        cartTotal.textContent = `R${totalPrice}.00`;
+    }
+    
+    // Send cart to WhatsApp
+    function sendToWhatsApp() {
+        if (cart.length === 0) {
+            alert('Your cart is empty');
+            return;
+        }
+        
+        const whatsappNumber = "27817925033"; 
+        
+        // Build message
+        let message = "Hello! I would like to request the following services:\n\n";
+        
+        cart.forEach(item => {
+            let priceDisplay = `R${item.price * item.quantity}`;
+            if (item.type === 'hardware-repair') {
+                priceDisplay = `R${item.price * item.quantity}+ (estimated)`;
+            }
+            
+            message += `• ${item.name} (x${item.quantity}) - ${priceDisplay}\n`;
+            
+            // Customer details for regular services
+            if (item.customerDetails) {
+                message += `  📧 Email: ${item.customerDetails.email}\n`;
+                message += `  📞 Phone: ${item.customerDetails.phone}\n`;
+                message += `  📍 Location: ${item.customerDetails.location}\n`;
+                message += `  🏠 Stand: ${item.customerDetails.standNumber}\n`;
+            }
+            
+            // Detailed information for hardware repairs
+            if (item.type === 'hardware-repair') {
+                message += `  💻 Computers: ${item.details.numComputers}\n`;
+                message += `  🔧 Issue: ${item.details.computerIssue}\n`;
+                message += `  👤 Name: ${item.details.fullName}\n`;
+                message += `  📧 Email: ${item.details.email}\n`;
+                message += `  📞 Phone: ${item.details.phone}\n`;
+                message += `  📍 Address: ${item.details.address}\n`;
+                if (item.details.companyName) {
+                    message += `  🏢 Company: ${item.details.companyName}\n`;
+                }
+                message += `  💰 Payment: ${item.details.paymentType}\n`;
+                if (item.details.hasImage) {
+                    message += `  📸 Image: Provided\n`;
+                }
+            }
+            message += '\n';
+        });
+        
+        const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        message += `\n💰 Total: R${totalPrice}.00`;
+        
+        if (cart.some(item => item.type === 'hardware-repair')) {
+            message += `\n\n*Note: Hardware repair prices are estimates and may vary based on the actual repair required.*`;
+        }
+        
+        // Encode message for URL
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Create WhatsApp URL
+        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        // Open WhatsApp in new tab
+        window.open(whatsappURL, '_blank');
+        
+        // Clear cart after sending
+        cart = [];
+        updateCartUI();
+        toggleCart();
+    }
+    
+    // Cart icon click event
+    document.getElementById('cartIcon').addEventListener('click', toggleCart);
+    
+    // Service prices and selection
+    const prices = {
+        'Windows Installation': 200,
+        'Microsoft Office Installation': 150,
+        'Antivirus Installation': 70,
+        'Adobe Reader Installation': 60,
+        'Deleted Files Recovery (up to 600 files)': 300,
+        'Password Recovery': 300,
+        'Printer Setup Installation': 150
+    };
+
+    // Show form and overlay
+    function showForm(serviceTitle, price) {
+        const formContainer = document.getElementById('formContainer');
+        const formOverlay = document.getElementById('formOverlay');
+        const formTitle = document.getElementById('formTitle');
+        const servicePrice = document.getElementById('servicePrice');
+        
+        formTitle.textContent = serviceTitle;
+        servicePrice.textContent = `Price: R${price}.00`;
+
+        // Store current service
+        currentService = {
+            name: serviceTitle,
+            price: price
         };
 
-        // Show form and overlay
-        function showForm(serviceTitle, price) {
-            const formContainer = document.getElementById('formContainer');
-            const formOverlay = document.getElementById('formOverlay');
-            const formTitle = document.getElementById('formTitle');
-            const servicePrice = document.getElementById('servicePrice');
-            
-            formTitle.textContent = serviceTitle;
-            servicePrice.textContent = `Price: R${price}.00`;
+        formContainer.setAttribute('data-price', price); 
 
-            // Store current service
-            currentService = {
-                name: serviceTitle,
-                price: price
-            };
+        formContainer.style.left = '0'; 
+        formContainer.style.display = 'block';
+        formOverlay.style.display = 'block'; 
+    }
 
-            formContainer.setAttribute('data-price', price); // Store base price
+    // Hide form and overlay
+    function hideForm() {
+        const formContainer = document.getElementById('formContainer');
+        const formOverlay = document.getElementById('formOverlay');
+        formContainer.style.left = '-100%'; 
+        formContainer.style.display = 'none';
+        formOverlay.style.display = 'none'; 
+        currentService = null;
+    }
 
-            formContainer.style.left = '0'; // Show form by sliding in from the left
-            formContainer.style.display = 'block';
-            formOverlay.style.display = 'block'; // Show the overlay
+    // Update price when full installation checkbox is checked
+    function updatePrice() {
+        const fullInstallChecked = document.getElementById('fullInstall').checked;
+        const formContainer = document.getElementById('formContainer');
+        const servicePrice = document.getElementById('servicePrice');
+        const basePrice = parseInt(formContainer.getAttribute('data-price'));
+
+        if (fullInstallChecked) {
+            servicePrice.textContent = "Price: R420.00"; 
+        } else {
+            servicePrice.textContent = `Price: R${basePrice}.00`;
         }
+    }
 
-        // Hide form and overlay
-        function hideForm() {
-            const formContainer = document.getElementById('formContainer');
-            const formOverlay = document.getElementById('formOverlay');
-            formContainer.style.left = '-100%'; // Hide form by sliding out
-            formContainer.style.display = 'none';
-            formOverlay.style.display = 'none'; // Hide the overlay
-            currentService = null;
-        }
-
-        // Update price when full installation checkbox is checked
-        function updatePrice() {
-            const fullInstallChecked = document.getElementById('fullInstall').checked;
-            const formContainer = document.getElementById('formContainer');
-            const servicePrice = document.getElementById('servicePrice');
-            const basePrice = parseInt(formContainer.getAttribute('data-price'));
-
-            if (fullInstallChecked) {
-                servicePrice.textContent = "Price: R420.00"; 
-            } else {
-                servicePrice.textContent = `Price: R${basePrice}.00`;
-            }
-        }
-
-        // Toggle computer input fields
-        function toggleComputerInput(fieldId) {
-            const inputField = document.getElementById(fieldId);
-            const notSureCheckbox = document.getElementById(fieldId === 'uniqueComputerName' ? 'uniqueNotSureName' : 'uniqueNotSureModel');
-            
-            if (notSureCheckbox.checked) {
-                inputField.disabled = true;
-                inputField.value = 'Not sure';
-            } else {
-                inputField.disabled = false;
-                inputField.value = '';
-            }
-        }
-
-        // Hardware repair form visibility
-        let isFormVisible = false;
-        let ignoreScrollEvent = false;
+    // Toggle computer input fields
+    function toggleComputerInput(fieldId) {
+        const inputField = document.getElementById(fieldId);
+        const notSureCheckbox = document.getElementById(fieldId === 'uniqueComputerName' ? 'uniqueNotSureName' : 'uniqueNotSureModel');
         
-        document.getElementById("toggleFormBtn").addEventListener("click", function () {
-            var formContainer = document.getElementById("computer-repair-form-container");
+        if (notSureCheckbox.checked) {
+            inputField.disabled = true;
+            inputField.value = 'Not sure';
+        } else {
+            inputField.disabled = false;
+            inputField.value = '';
+        }
+    }
 
-            if (!isFormVisible) {
-                formContainer.style.visibility = "hidden";
-                formContainer.style.display = "block";
+    // Hardware repair form visibility
+    let isFormVisible = false;
+    let ignoreScrollEvent = false;
+    
+    document.getElementById("toggleFormBtn").addEventListener("click", function () {
+        var formContainer = document.getElementById("computer-repair-form-container");
 
-                formContainer.scrollIntoView({ behavior: "smooth" });
+        if (!isFormVisible) {
+            formContainer.style.visibility = "hidden";
+            formContainer.style.display = "block";
 
-                setTimeout(() => {
-                    formContainer.style.visibility = "visible";
-                }, 500);
+            formContainer.scrollIntoView({ behavior: "smooth" });
 
-                isFormVisible = true;
-                ignoreScrollEvent = true;
+            setTimeout(() => {
+                formContainer.style.visibility = "visible";
+            }, 500);
 
-                setTimeout(() => {
-                    ignoreScrollEvent = false;
-                }, 1000);
-            } else {
-                formContainer.style.display = "none";
-                isFormVisible = false;
+            isFormVisible = true;
+            ignoreScrollEvent = true;
+
+            setTimeout(() => {
+                ignoreScrollEvent = false;
+            }, 1000);
+        } else {
+            formContainer.style.display = "none";
+            isFormVisible = false;
+        }
+    });
+    
+    // Auto-hide form when scrolling back above the button
+    window.addEventListener("scroll", function () {
+        if (ignoreScrollEvent) return;
+
+        var formContainer = document.getElementById("computer-repair-form-container");
+        var button = document.getElementById("toggleFormBtn");
+        var buttonPosition = button.getBoundingClientRect().top;
+
+        if (isFormVisible && buttonPosition > 0) { 
+            formContainer.style.display = "none";
+            isFormVisible = false;
+        }
+    });
+
+    // Initialize dropdown functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownItems = document.querySelectorAll('.dropdown-item[onclick*="showForm"]');
+        dropdownItems.forEach(item => {
+            const originalOnClick = item.getAttribute('onclick');
+            const match = originalOnClick.match(/showForm\('([^']+)',\s*(\d+)\)/);
+            if (match) {
+                const serviceName = match[1];
+                const price = parseInt(match[2]);
+                item.removeAttribute('onclick');
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showForm(serviceName, price);
+                });
             }
         });
-        
-        // Auto-hide form when scrolling back above the button
-        window.addEventListener("scroll", function () {
-            if (ignoreScrollEvent) return;
-
-            var formContainer = document.getElementById("computer-repair-form-container");
-            var button = document.getElementById("toggleFormBtn");
-            var buttonPosition = button.getBoundingClientRect().top;
-
-            if (isFormVisible && buttonPosition > 0) { 
-                formContainer.style.display = "none";
-                isFormVisible = false;
-            }
-        });
-
-        // Initialize dropdown functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click handlers for all dropdown items that show forms
-            const dropdownItems = document.querySelectorAll('.dropdown-item[onclick*="showForm"]');
-            dropdownItems.forEach(item => {
-                const originalOnClick = item.getAttribute('onclick');
-                // Extract service name and price from the original onclick
-                const match = originalOnClick.match(/showForm\('([^']+)',\s*(\d+)\)/);
-                if (match) {
-                    const serviceName = match[1];
-                    const price = parseInt(match[2]);
-                    item.removeAttribute('onclick');
-                    item.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        showForm(serviceName, price);
-                    });
-                }
-            });
-        });
-    </script>
+    });
+</script>
+    
 </body>
 </html>
